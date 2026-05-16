@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import joblib
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -14,52 +13,24 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── Custom CSS ──────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
 html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
-
-.main { background: #FAFAF8; }
-
 .metric-card {
-    background: white;
-    border: 1px solid #EBEBEB;
-    border-radius: 12px;
-    padding: 1.2rem 1.4rem;
-    text-align: center;
+    background: white; border: 1px solid #EBEBEB;
+    border-radius: 12px; padding: 1.2rem 1.4rem; text-align: center;
 }
 .metric-card .label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
 .metric-card .value { font-size: 28px; font-weight: 600; color: #1A1A1A; }
-.metric-card .sub { font-size: 12px; color: #aaa; margin-top: 2px; }
-
-.predict-box {
-    padding: 1.5rem 2rem;
-    border-radius: 16px;
-    text-align: center;
-    margin-top: 1rem;
-}
+.metric-card .sub   { font-size: 12px; color: #aaa; margin-top: 2px; }
+.predict-box { padding: 1.5rem 2rem; border-radius: 16px; text-align: center; margin-top: 1rem; }
 .success-box { background: #EDFAF3; border: 1.5px solid #34C77B; }
 .fail-box    { background: #FEF2F2; border: 1.5px solid #F87171; }
-
-.zone-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-}
-.sidebar-section {
-    background: #F5F5F2;
-    border-radius: 10px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
 </style>
 """, unsafe_allow_html=True)
 
-# ── Load models ──────────────────────────────────────────────────────────────
+# ── Load models & data ────────────────────────────────────────────────────────
 @st.cache_resource
 def load_models():
     rf      = joblib.load("models/rf_model.pkl")
@@ -68,21 +39,33 @@ def load_models():
     area_df = joblib.load("models/area_df.pkl")
     return rf, km, scaler, area_df
 
+@st.cache_data
+def load_data():
+    df = pd.read_csv("../data/zomato_feature_engineered.csv")
+    df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
+    df["delivery_ratings"] = pd.to_numeric(df["delivery_ratings"], errors="coerce")
+    df["dinner_ratings"]   = pd.to_numeric(df["dinner_ratings"],   errors="coerce")
+    df["high_rated"] = (df["delivery_ratings"] >= 4.0).astype(int)
+    return df
+
 rf, km, scaler, area_df = load_models()
+df = load_data()
 
-FEATURES = ['dinner_ratings','dinner_reviews','delivery_reviews','averagecost',
-            'ishomedelivery','istakeaway','isindoorseating','isvegonly',
-            'cuisine_count','restaurant_density','cost_index',
-            'demand_score','opportunity_score','area_avg_rating']
+FEATURES = [
+    'dinner_ratings','dinner_reviews','delivery_reviews','averagecost',
+    'ishomedelivery','istakeaway','isindoorseating','isvegonly',
+    'cuisine_count','restaurant_density','cost_index',
+    'demand_score','opportunity_score','area_avg_rating'
+]
 
-CLUSTER_LABELS = {
-    0: ("Growth Opportunity",  "#22C55E", "#EDFAF3"),
-    1: ("Saturated",           "#F59E0B", "#FEF9EC"),
-    2: ("Underserved",         "#6366F1", "#F0F0FF"),
-    3: ("High Competition\nLow Demand", "#EF4444", "#FEF2F2"),
+ZONE_STYLE = {
+    "Growth Opportunity":          ("#2ca02c", "#EDFAF3"),
+    "Saturated Market":            ("#d62728", "#FEF2F2"),
+    "Underserved Area":            ("#e6b800", "#FFFDE7"),
+    "High Competition Low Demand": ("#ff7f0e", "#FFF3E0"),
 }
 
-# ── Sidebar navigation ───────────────────────────────────────────────────────
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.markdown("## 🍽️ Zomato Intelligence")
 st.sidebar.markdown("---")
 page = st.sidebar.radio("Navigate", ["🏠 Overview", "🤖 Predict Success", "🗺️ Area Clustering"])
@@ -114,13 +97,13 @@ if page == "🏠 Overview":
     with c2:
         st.markdown("""<div class='metric-card'>
             <div class='label'>Model Accuracy</div>
-            <div class='value'>88.4%</div>
+            <div class='value'>64.6%</div>
             <div class='sub'>Random Forest</div>
         </div>""", unsafe_allow_html=True)
     with c3:
-        st.markdown("""<div class='metric-card'>
+        st.markdown(f"""<div class='metric-card'>
             <div class='label'>Areas Segmented</div>
-            <div class='value'>147</div>
+            <div class='value'>{len(area_df)}</div>
             <div class='sub'>into 4 market zones</div>
         </div>""", unsafe_allow_html=True)
     with c4:
@@ -131,180 +114,173 @@ if page == "🏠 Overview":
         </div>""", unsafe_allow_html=True)
 
     st.markdown("---")
-
     col1, col2 = st.columns(2)
-
     with col1:
         st.markdown("#### 🤖 Restaurant Success Predictor")
         st.markdown("""
-        Input restaurant attributes and get an instant prediction on whether a restaurant
-        will be **high-rated (≥4.0)** or **low-rated**.
-
+        Select any restaurant — values are **fetched automatically** from the dataset
+        and fed into the model. Shows prediction vs actual result.
         - **Model**: Random Forest Classifier
         - **Features**: 14 engineered inputs
-        - **Metric**: Accuracy 88.4%, F1 0.775
+        - **Accuracy**: 64.6%
         """)
-
     with col2:
         st.markdown("#### 🗺️ Area Market Zone Classifier")
         st.markdown("""
-        Select a Bangalore area to see which **market zone** it falls into and
-        what that means for business expansion.
-
+        Select a Bangalore area to see its **market zone** fetched from the clustering results.
         - **Model**: K-Means Clustering (K=4)
-        - **Zones**: Growth Opportunity, Saturated, Underserved, High Competition Low Demand
-        - **Validated**: Silhouette score
+        - **Zones**: Growth Opportunity · Saturated · Underserved · High Competition Low Demand
         """)
 
     st.markdown("---")
     st.markdown("#### 📊 Feature Importance — What drives restaurant success?")
 
-    importances = rf.feature_importances_
-    feat_imp = pd.DataFrame({'Feature': FEATURES, 'Importance': importances})
-    feat_imp = feat_imp.sort_values('Importance', ascending=True)
+    feat_imp = pd.DataFrame({
+        'Feature': FEATURES,
+        'Importance': rf.feature_importances_
+    }).sort_values('Importance', ascending=True)
 
     fig, ax = plt.subplots(figsize=(8, 5))
-    colors = ['#6366F1' if v > 0.08 else '#CBD5E1' for v in feat_imp['Importance']]
+    colors = ['#d62728' if v > 0.1 else '#4C72B0' for v in feat_imp['Importance']]
     bars = ax.barh(feat_imp['Feature'], feat_imp['Importance'], color=colors, height=0.6)
     ax.set_xlabel('Importance Score', fontsize=11)
     ax.spines[['top','right','left']].set_visible(False)
     ax.tick_params(left=False)
     ax.set_facecolor('#FAFAF8')
     fig.patch.set_facecolor('#FAFAF8')
+    ax.axvline(0.1, color='red', linestyle='--', alpha=0.4, label='High impact (>0.1)')
+    ax.legend(fontsize=9)
     for bar, val in zip(bars, feat_imp['Importance']):
-        ax.text(val + 0.002, bar.get_y() + bar.get_height()/2,
+        ax.text(val + 0.001, bar.get_y() + bar.get_height()/2,
                 f'{val:.3f}', va='center', fontsize=9, color='#555')
     plt.tight_layout()
     st.pyplot(fig)
     plt.close()
 
-    st.markdown("""
-    <div style='background:#F0F0FF; border-left: 3px solid #6366F1; padding: 0.8rem 1rem; border-radius: 6px; font-size:14px;'>
-    <b>Key insight:</b> <code>dinner_ratings</code>, <code>area_avg_rating</code>, and <code>opportunity_score</code>
-    are the top predictors of restaurant success — confirming that location quality and peer ratings
-    matter more than price or cuisine variety.
-    </div>
-    """, unsafe_allow_html=True)
-
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 2 — Predict Success
+# PAGE 2 — Predict Success  (fetches all values from CSV)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "🤖 Predict Success":
     st.title("Restaurant Success Predictor")
-    st.markdown("Fill in the restaurant details below to predict if it will be **high-rated (≥ 4.0)**.")
+    st.markdown("Select a restaurant — all 14 feature values are **fetched automatically** from the dataset.")
     st.markdown("")
 
-    col1, col2, col3 = st.columns(3)
+    valid_df = df[FEATURES + ['name', 'area', 'cuisines', 'high_rated', 'overall_rating']].dropna()
+    restaurant_names = sorted(valid_df['name'].unique().tolist())
+    selected = st.selectbox("🔍 Search or select a restaurant", restaurant_names)
 
-    with col1:
-        st.markdown("**Ratings & Reviews**")
-        dinner_ratings   = st.slider("Dinner Rating", 1.0, 5.0, 3.8, 0.1)
-        dinner_reviews   = st.number_input("Dinner Reviews", 0, 100000, 500, 50)
-        delivery_reviews = st.number_input("Delivery Reviews", 0, 100000, 1000, 100)
+    if selected:
+        row = valid_df[valid_df['name'] == selected].iloc[0]
 
-    with col2:
-        st.markdown("**Restaurant Details**")
-        averagecost      = st.number_input("Avg Cost for 2 (₹)", 100, 5000, 500, 50)
-        cuisine_count    = st.slider("Number of Cuisines", 1, 15, 3)
-        ishomedelivery   = st.selectbox("Home Delivery?",  [1, 0], format_func=lambda x: "Yes" if x else "No")
-        istakeaway       = st.selectbox("Takeaway?",       [1, 0], format_func=lambda x: "Yes" if x else "No")
-        isindoorseating  = st.selectbox("Indoor Seating?", [1, 0], format_func=lambda x: "Yes" if x else "No")
-        isvegonly        = st.selectbox("Veg Only?",       [0, 1], format_func=lambda x: "Yes" if x else "No")
+        st.markdown("#### 📋 Values fetched from dataset")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Area",           row['area'])
+        c2.metric("Dinner Rating",  f"{row['dinner_ratings']:.1f}")
+        c3.metric("Avg Cost",       f"₹{int(row['averagecost'])}")
+        c4.metric("Cuisines",       int(row['cuisine_count']))
 
-    with col3:
-        st.markdown("**Area / Engineered Features**")
-        area_avg_rating    = st.slider("Area Avg Rating",    1.0, 5.0, 3.9, 0.05)
-        restaurant_density = st.number_input("Restaurant Density (area)", 1, 500, 50)
-        demand_score       = st.number_input("Demand Score", 0.0, 100000.0, 5000.0, 100.0)
-        opportunity_score  = st.number_input("Opportunity Score", 0.0, 500.0, 80.0, 5.0)
-        cost_index         = st.number_input("Cost Index", 0.0, 5.0, 1.0, 0.1)
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Demand Score",       f"{row['demand_score']:.0f}")
+        c2.metric("Opportunity Score",  f"{row['opportunity_score']:.1f}")
+        c3.metric("Area Avg Rating",    f"{row['area_avg_rating']:.2f}")
+        c4.metric("Restaurant Density", f"{int(row['restaurant_density'])}")
 
-    st.markdown("")
-    predict_btn = st.button("🔍 Predict", use_container_width=True, type="primary")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Home Delivery",  "Yes" if row['ishomedelivery']  else "No")
+        c2.metric("Takeaway",       "Yes" if row['istakeaway']      else "No")
+        c3.metric("Indoor Seating", "Yes" if row['isindoorseating'] else "No")
+        c4.metric("Veg Only",       "Yes" if row['isvegonly']       else "No")
 
-    if predict_btn:
-        input_data = pd.DataFrame([[
-            dinner_ratings, dinner_reviews, delivery_reviews, averagecost,
-            ishomedelivery, istakeaway, isindoorseating, isvegonly,
-            cuisine_count, restaurant_density, cost_index,
-            demand_score, opportunity_score, area_avg_rating
-        ]], columns=FEATURES)
+        st.markdown("---")
 
+        # predict using fetched values
+        input_data = pd.DataFrame([row[FEATURES].values], columns=FEATURES)
         pred       = rf.predict(input_data)[0]
         prob       = rf.predict_proba(input_data)[0]
         confidence = prob[pred] * 100
+        actual     = int(row['high_rated'])
+        actual_rating = row['overall_rating']
 
-        st.markdown("---")
-        c1, c2, c3 = st.columns([1,2,1])
-        with c2:
+        col_pred, col_actual = st.columns(2)
+
+        with col_pred:
+            st.markdown("#### 🤖 Model Prediction")
             if pred == 1:
                 st.markdown(f"""
                 <div class='predict-box success-box'>
-                    <div style='font-size:48px'>✅</div>
-                    <div style='font-size:22px; font-weight:600; color:#16A34A; margin:8px 0'>High-Rated Restaurant</div>
-                    <div style='font-size:14px; color:#555'>Predicted rating ≥ 4.0 — likely to succeed</div>
-                    <div style='font-size:28px; font-weight:600; color:#16A34A; margin-top:12px'>{confidence:.1f}% confident</div>
-                </div>
-                """, unsafe_allow_html=True)
+                    <div style='font-size:36px'>✅</div>
+                    <div style='font-size:20px; font-weight:600; color:#16A34A; margin:8px 0'>High-Rated</div>
+                    <div style='font-size:13px; color:#555'>Predicted rating ≥ 4.0</div>
+                    <div style='font-size:24px; font-weight:600; color:#16A34A; margin-top:10px'>{confidence:.1f}% confident</div>
+                </div>""", unsafe_allow_html=True)
             else:
                 st.markdown(f"""
                 <div class='predict-box fail-box'>
-                    <div style='font-size:48px'>⚠️</div>
-                    <div style='font-size:22px; font-weight:600; color:#DC2626; margin:8px 0'>Low-Rated Restaurant</div>
-                    <div style='font-size:14px; color:#555'>Predicted rating &lt; 4.0 — improvement needed</div>
-                    <div style='font-size:28px; font-weight:600; color:#DC2626; margin-top:12px'>{confidence:.1f}% confident</div>
-                </div>
-                """, unsafe_allow_html=True)
+                    <div style='font-size:36px'>⚠️</div>
+                    <div style='font-size:20px; font-weight:600; color:#DC2626; margin:8px 0'>Low-Rated</div>
+                    <div style='font-size:13px; color:#555'>Predicted rating &lt; 4.0</div>
+                    <div style='font-size:24px; font-weight:600; color:#DC2626; margin-top:10px'>{confidence:.1f}% confident</div>
+                </div>""", unsafe_allow_html=True)
+
+        with col_actual:
+            st.markdown("#### 📊 Actual from Dataset")
+            if actual == 1:
+                st.markdown(f"""
+                <div class='predict-box success-box'>
+                    <div style='font-size:36px'>⭐</div>
+                    <div style='font-size:20px; font-weight:600; color:#16A34A; margin:8px 0'>High-Rated</div>
+                    <div style='font-size:13px; color:#555'>Actual rating ≥ 4.0</div>
+                    <div style='font-size:24px; font-weight:600; color:#16A34A; margin-top:10px'>Rating: {actual_rating:.2f}</div>
+                </div>""", unsafe_allow_html=True)
+            else:
+                st.markdown(f"""
+                <div class='predict-box fail-box'>
+                    <div style='font-size:36px'>📉</div>
+                    <div style='font-size:20px; font-weight:600; color:#DC2626; margin:8px 0'>Low-Rated</div>
+                    <div style='font-size:13px; color:#555'>Actual rating &lt; 4.0</div>
+                    <div style='font-size:24px; font-weight:600; color:#DC2626; margin-top:10px'>Rating: {actual_rating:.2f}</div>
+                </div>""", unsafe_allow_html=True)
 
         st.markdown("")
-        st.markdown("**Probability breakdown**")
-        p_col1, p_col2 = st.columns(2)
-        p_col1.metric("Low-Rated probability",  f"{prob[0]*100:.1f}%")
-        p_col2.metric("High-Rated probability", f"{prob[1]*100:.1f}%")
-
-        st.markdown("---")
-        st.markdown("#### 💡 Insight")
-        if pred == 1:
-            st.success(f"This restaurant profile is predicted to succeed with **{confidence:.1f}% confidence**. "
-                       f"Strong dinner ratings and a high area average rating are key contributors.")
+        if pred == actual:
+            st.success("✅ Model prediction matches the actual rating!")
         else:
-            st.warning(f"This restaurant profile is at risk. Consider improving dinner ratings and "
-                       f"targeting a higher-demand area to boost success probability.")
+            st.warning("⚠️ Model prediction did not match the actual rating for this restaurant.")
 
 
 # ════════════════════════════════════════════════════════════════════════════
-# PAGE 3 — Area Clustering
+# PAGE 3 — Area Clustering  (fetches from area_df saved from notebook)
 # ════════════════════════════════════════════════════════════════════════════
 elif page == "🗺️ Area Clustering":
     st.title("Bangalore Area Market Zones")
-    st.markdown("K-Means clustering (K=4) segments 147 Bangalore areas into strategic market zones.")
+    st.markdown("K-Means clustering (K=4) — values fetched from clustering results.")
     st.markdown("")
 
-    # Zone summary cards
-    zone_data = {
-        "Growth Opportunity":              {"color": "#22C55E", "bg": "#EDFAF3", "desc": "High opportunity, moderate density. Best for new entrants.", "areas": len(area_df[area_df['cluster']==0])},
-        "Saturated":                       {"color": "#F59E0B", "bg": "#FEF9EC", "desc": "High density, competitive. Hard to differentiate.", "areas": len(area_df[area_df['cluster']==1])},
-        "Underserved":                     {"color": "#6366F1", "bg": "#F0F0FF", "desc": "Very low density, high opportunity. Untapped market.", "areas": len(area_df[area_df['cluster']==2])},
-        "High Competition Low Demand":     {"color": "#EF4444", "bg": "#FEF2F2", "desc": "Low demand, high competition. Avoid unless differentiated.", "areas": len(area_df[area_df['cluster']==3])},
+    zones = ["Growth Opportunity", "Saturated Market", "Underserved Area", "High Competition Low Demand"]
+    zone_descs = {
+        "Growth Opportunity":          "Low competition, high demand. Best for new entrants.",
+        "Saturated Market":            "High density, high demand. Hard to differentiate.",
+        "Underserved Area":            "Low density, low demand. Niche first-mover play.",
+        "High Competition Low Demand": "High competition, low demand. Risky — avoid.",
     }
-
     cols = st.columns(4)
-    for i, (zone, info) in enumerate(zone_data.items()):
+    for i, zone in enumerate(zones):
+        color, bg = ZONE_STYLE.get(zone, ("#888", "#F8F8F8"))
+        count = len(area_df[area_df['market_zone'] == zone])
         with cols[i]:
             st.markdown(f"""
-            <div style='background:{info["bg"]}; border:1.5px solid {info["color"]}; border-radius:12px; padding:1rem; text-align:center;'>
-                <div style='font-size:13px; font-weight:600; color:{info["color"]};'>{zone}</div>
-                <div style='font-size:28px; font-weight:700; color:#1A1A1A; margin:6px 0'>{info["areas"]}</div>
-                <div style='font-size:11px; color:#777;'>{info["desc"]}</div>
-            </div>
-            """, unsafe_allow_html=True)
+            <div style='background:{bg}; border:1.5px solid {color}; border-radius:12px; padding:1rem; text-align:center;'>
+                <div style='font-size:12px; font-weight:600; color:{color};'>{zone}</div>
+                <div style='font-size:28px; font-weight:700; color:#1A1A1A; margin:6px 0'>{count}</div>
+                <div style='font-size:11px; color:#777;'>{zone_descs[zone]}</div>
+            </div>""", unsafe_allow_html=True)
 
     st.markdown("")
     st.markdown("---")
 
-    # Area lookup
     col1, col2 = st.columns([1, 2])
+
     with col1:
         st.markdown("#### 🔍 Look up an area")
         area_list = sorted(area_df['area'].tolist())
@@ -312,59 +288,60 @@ elif page == "🗺️ Area Clustering":
 
         if selected_area:
             row = area_df[area_df['area'] == selected_area].iloc[0]
-            cluster_id = int(row['cluster'])
-            label, color, bg = CLUSTER_LABELS[cluster_id]
+            zone = row['market_zone']
+            color, bg = ZONE_STYLE.get(zone, ("#888", "#F8F8F8"))
 
             st.markdown(f"""
             <div style='background:{bg}; border:1.5px solid {color}; border-radius:12px; padding:1.2rem; margin-top:1rem;'>
                 <div style='font-size:12px; color:#888; margin-bottom:4px;'>Market Zone</div>
-                <div style='font-size:18px; font-weight:600; color:{color};'>{label}</div>
+                <div style='font-size:18px; font-weight:600; color:{color};'>{zone}</div>
                 <hr style='border-color:#eee; margin:10px 0;'>
-                <div style='font-size:13px; color:#555; line-height:2;'>
-                    📍 Area Avg Rating: <b>{row['area_avg_rating']:.2f}</b><br>
-                    🏪 Restaurant Density: <b>{int(row['restaurant_density'])}</b><br>
-                    📈 Demand Score: <b>{row['demand_score']:,.0f}</b><br>
-                    🎯 Opportunity Score: <b>{row['opportunity_score']:.1f}</b>
+                <div style='font-size:13px; color:#555; line-height:2.2;'>
+                    🏪 Restaurants in area: <b>{int(row['restaurant_count'])}</b><br>
+                    ⭐ Avg Delivery Rating: <b>{row['avg_delivery_rating']:.2f}</b><br>
+                    📈 Avg Demand Score: <b>{row['avg_demand_score']:,.0f}</b><br>
+                    🎯 Avg Opportunity Score: <b>{row['avg_opportunity']:.1f}</b><br>
+                    💰 Avg Cost for 2: <b>₹{row['avg_cost']:,.0f}</b>
                 </div>
-            </div>
-            """, unsafe_allow_html=True)
+            </div>""", unsafe_allow_html=True)
 
     with col2:
-        st.markdown("#### 📊 Cluster scatter — Opportunity vs Density")
-        cluster_colors = {0: "#22C55E", 1: "#F59E0B", 2: "#6366F1", 3: "#EF4444"}
-        cluster_names  = {0: "Growth Opportunity", 1: "Saturated", 2: "Underserved", 3: "High Competition Low Demand"}
-
+        st.markdown("#### 📊 Cluster scatter — Demand vs Competition")
         fig, ax = plt.subplots(figsize=(7, 4.5))
-        for c in range(4):
-            sub = area_df[area_df['cluster'] == c]
-            ax.scatter(sub['restaurant_density'], sub['opportunity_score'],
-                       c=cluster_colors[c], label=cluster_names[c],
-                       alpha=0.8, s=60, edgecolors='white', linewidths=0.5)
-        ax.set_xlabel("Restaurant Density", fontsize=11)
-        ax.set_ylabel("Opportunity Score", fontsize=11)
+        colors_map = {
+            "Growth Opportunity":          "#2ca02c",
+            "Saturated Market":            "#d62728",
+            "Underserved Area":            "#e6b800",
+            "High Competition Low Demand": "#ff7f0e",
+        }
+        for zone, grp in area_df.groupby('market_zone'):
+            ax.scatter(grp['restaurant_count'], grp['avg_demand_score'],
+                       c=colors_map.get(zone, '#888'), label=zone,
+                       alpha=0.8, s=70, edgecolors='white', linewidths=0.5)
+        ax.set_xlabel("Number of Restaurants (Competition)", fontsize=11)
+        ax.set_ylabel("Average Demand Score", fontsize=11)
         ax.spines[['top','right']].set_visible(False)
         ax.set_facecolor('#FAFAF8')
         fig.patch.set_facecolor('#FAFAF8')
-        ax.legend(fontsize=9, framealpha=0.5)
+        ax.legend(fontsize=8, framealpha=0.5)
         plt.tight_layout()
         st.pyplot(fig)
         plt.close()
 
     st.markdown("---")
     st.markdown("#### 📋 All areas with zone classification")
-    display_df = area_df[['area','area_avg_rating','restaurant_density','demand_score','opportunity_score','cluster']].copy()
-    display_df['zone'] = display_df['cluster'].map({k: v[0] for k, v in CLUSTER_LABELS.items()})
-    display_df = display_df.drop('cluster', axis=1)
-    display_df.columns = ['Area','Avg Rating','Density','Demand Score','Opportunity Score','Zone']
-    display_df = display_df.sort_values('Opportunity Score', ascending=False).reset_index(drop=True)
-    display_df['Avg Rating'] = display_df['Avg Rating'].round(2)
-    display_df['Demand Score'] = display_df['Demand Score'].round(0).astype(int)
+    display_df = area_df[['area','restaurant_count','avg_delivery_rating',
+                           'avg_demand_score','avg_opportunity','avg_cost','market_zone']].copy()
+    display_df.columns = ['Area','Restaurants','Avg Rating','Demand Score','Opportunity Score','Avg Cost','Market Zone']
+    display_df = display_df.sort_values('Demand Score', ascending=False).reset_index(drop=True)
+    display_df['Avg Rating']        = display_df['Avg Rating'].round(2)
+    display_df['Demand Score']      = display_df['Demand Score'].round(0).astype(int)
     display_df['Opportunity Score'] = display_df['Opportunity Score'].round(1)
+    display_df['Avg Cost']          = display_df['Avg Cost'].round(0).astype(int)
     st.dataframe(display_df, use_container_width=True, height=400)
 
     st.markdown("""
-    <div style='background:#F0F0FF; border-left:3px solid #6366F1; padding:0.8rem 1rem; border-radius:6px; font-size:14px; margin-top:1rem;'>
-    <b>Business insight:</b> Areas in the <b>Growth Opportunity</b> zone offer the best risk-adjusted expansion potential —
-    moderate competition with strong demand signals. <b>Underserved</b> areas are high-risk, high-reward plays for first movers.
-    </div>
-    """, unsafe_allow_html=True)
+    <div style='background:#EDFAF3; border-left:3px solid #2ca02c; padding:0.8rem 1rem; border-radius:6px; font-size:14px; margin-top:1rem;'>
+    <b>Business insight:</b> <b>Growth Opportunity</b> areas have low competition but strong demand — best risk-adjusted expansion zones.
+    <b>Underserved</b> areas are first-mover opportunities but come with demand risk.
+    </div>""", unsafe_allow_html=True)
