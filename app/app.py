@@ -44,7 +44,7 @@ def load_models():
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv(os.path.join(BASE_DIR, "data", "zomato_feature_engineered.csv"))
+    df = pd.read_csv(os.path.join(BASE_DIR, "..", "data", "zomato_feature_engineered.csv"))
     df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
     df["delivery_ratings"] = pd.to_numeric(df["delivery_ratings"], errors="coerce")
     df["dinner_ratings"]   = pd.to_numeric(df["dinner_ratings"],   errors="coerce")
