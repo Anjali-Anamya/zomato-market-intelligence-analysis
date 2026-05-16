@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -5,6 +6,8 @@ import joblib
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(
     page_title="Zomato Market Intelligence",
@@ -33,15 +36,15 @@ html, body, [class*="css"] { font-family: 'DM Sans', sans-serif; }
 # ── Load models & data ────────────────────────────────────────────────────────
 @st.cache_resource
 def load_models():
-    rf      = joblib.load("models/rf_model.pkl")
-    km      = joblib.load("models/kmeans_model.pkl")
-    scaler  = joblib.load("models/scaler.pkl")
-    area_df = joblib.load("models/area_df.pkl")
+    rf      = joblib.load(os.path.join(BASE_DIR, "models", "rf_model.pkl"))
+    km      = joblib.load(os.path.join(BASE_DIR, "models", "kmeans_model.pkl"))
+    scaler  = joblib.load(os.path.join(BASE_DIR, "models", "scaler.pkl"))
+    area_df = joblib.load(os.path.join(BASE_DIR, "models", "area_df.pkl"))
     return rf, km, scaler, area_df
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("../data/zomato_feature_engineered.csv")
+    df = pd.read_csv(os.path.join(BASE_DIR, "data", "zomato_feature_engineered.csv"))
     df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
     df["delivery_ratings"] = pd.to_numeric(df["delivery_ratings"], errors="coerce")
     df["dinner_ratings"]   = pd.to_numeric(df["dinner_ratings"],   errors="coerce")
