@@ -1,0 +1,148 @@
+area,restaurant_count,avg_delivery_rating,avg_demand_score,avg_opportunity,avg_cost,cluster,market_zone
+"1 MG Road Mall, MG Road, Bangalore",1,3.7,190.1,190.1,350.0,0,Underserved Area
+"153 Biere Street, Bangalore",1,4.2,7523.599999999999,7523.599999999999,800.0,2,Growth Opportunity
+"5th Avenue, Brigade Road, Bangalore",1,4.2,682.5,682.5,400.0,0,Underserved Area
+"Abhimaani Vasathi, Bangalore",1,3.4,187.4,187.4,900.0,3,Underserved Area
+"Aloft Bengaluru Cessna Business Park, Kadubeesanahalli, Bangalore",1,4.1,5305.799999999999,5305.799999999999,700.0,2,Growth Opportunity
+"Ascendas Park Square, Whitefield, Bangalore",7,3.914285714285714,2815.628571428572,402.2326530612245,771.4285714285714,0,Growth Opportunity
+"BTM, Bangalore",137,3.8197080291970797,5717.728467153284,41.735244285790394,383.57664233576645,1,Saturated Market
+"Banashankari, Bangalore",79,3.9316455696202532,2812.8962025316455,35.606281044704374,379.746835443038,1,Saturated Market
+"Banaswadi, Bangalore",36,3.813888888888889,2146.983333333333,59.63842592592592,461.1111111111111,0,Saturated Market
+"Bangalore Central, Bellandur, Bangalore",2,3.8,5687.75,2843.875,400.0,2,Growth Opportunity
+"Bangalore Central, JP Nagar, Bangalore",1,3.6,4137.2,4137.2,1000.0,2,Growth Opportunity
+"Bannerghatta Road, Bangalore",88,3.8659090909090907,2991.0761363636366,33.98950154958678,435.79545454545456,1,Saturated Market
+"Basavanagudi, Bangalore",73,4.075342465753424,2724.3424657534247,37.31975980484143,369.17808219178085,1,Saturated Market
+"Basaveshwara Nagar, Bangalore",44,4.009090909090909,3165.065909090909,71.93331611570248,404.54545454545456,0,Saturated Market
+"Bellandur, Bangalore",69,3.8782608695652177,2591.4260869565214,37.556899810964076,438.40579710144925,1,Saturated Market
+"BluPetal Hotel, Koramangala, Bangalore",1,4.1,4007.3,4007.3,1200.0,2,Growth Opportunity
+"Bommanahalli, Bangalore",42,3.8595238095238096,1548.4690476190476,36.868310657596375,402.3809523809524,0,High Competition Low Demand
+"Bommasandra, Bangalore",26,3.819230769230769,1025.5730769230768,39.44511834319526,496.15384615384613,0,High Competition Low Demand
+"Brigade Road, Bangalore",23,4.034782608695652,1167.817391304348,50.77466918714555,510.8695652173913,0,High Competition Low Demand
+"Brookefield, Bangalore",69,3.8594202898550725,4808.897101449275,69.69416089056921,487.6811594202899,1,Saturated Market
+"Brookefields Mall, Brookefield, Bangalore",4,3.975,5076.825,1269.20625,587.5,0,Growth Opportunity
+"By The Way, Electronic City, Bangalore",1,4.1,480.69999999999993,480.69999999999993,400.0,0,Underserved Area
+"CV Raman Nagar, Bangalore",18,3.8499999999999996,1522.4222222222222,84.579012345679,405.55555555555554,0,High Competition Low Demand
+"Chairman's Resort, Bangalore",1,4.0,311.1,311.1,1250.0,0,Underserved Area
+"Church Street, Bangalore",20,4.01,1414.53,70.7265,942.5,0,High Competition Low Demand
+"City Market, Bangalore",7,4.142857142857143,804.6857142857143,114.95510204081631,342.85714285714283,0,Underserved Area
+"Coastal King, Bangalore, Bangalore",2,3.75,763.15,381.575,950.0,0,Underserved Area
+"Comfort Inn Insys, Yeshwantpur, Bangalore",1,3.3,215.9,215.9,1000.0,3,Underserved Area
+"Commercial Street, Bangalore",8,4.0,1689.225,211.153125,431.25,0,Underserved Area
+"Coraltree, RT Nagar, Bangalore",1,4.3,767.4,767.4,1200.0,0,Underserved Area
+"Cunningham Road, Bangalore",15,4.08,821.7,54.779999999999994,690.0,0,High Competition Low Demand
+"Domlur, Bangalore",13,3.946153846153846,2455.146153846154,188.8573964497041,530.7692307692307,0,Saturated Market
+"Eden Park Restaurants, Bangalore",1,4.3,271.1,271.1,200.0,0,Underserved Area
+"Ejipura, Bangalore",7,3.942857142857143,1103.5857142857142,157.6551020408163,342.85714285714283,0,Underserved Area
+"Electronic City, Bangalore",144,3.872916666666667,3375.5625,23.441406249999996,484.375,1,Saturated Market
+"Elements Mall, Nagawara, Bangalore",2,4.0,1364.6,682.3,875.0,0,Underserved Area
+"Fairfield by Marriott,Rajajinagar , Bangalore",1,4.0,194.9,194.9,150.0,0,Underserved Area
+"Forum Mall, Koramangala, Bangalore",4,4.075,2962.5,740.625,675.0,0,Growth Opportunity
+"Forum Neighbourhood Mall, Whitefield, Bangalore",3,3.533333333333333,979.6,326.5333333333333,550.0,3,Underserved Area
+"Forum Shantiniketan Mall, Whitefield, Bangalore",8,4.0,940.05,117.50625,768.75,0,Underserved Area
+"Four Points by Sheraton Bengaluru Whitefield, Bangalore",1,3.1,478.7,478.7,1700.0,3,Underserved Area
+"Frazer Town, Bangalore",55,4.02,1949.241818181818,35.440760330578506,485.45454545454544,0,Saturated Market
+"Garuda Mall, Magrath Road, Bangalore",4,3.8249999999999997,1292.15,323.0375,362.5,0,Underserved Area
+"Goldfinch Hotel, Seshadripuram, Bangalore",1,4.2,783.3,783.3,1200.0,0,Underserved Area
+"Gopalan Innovation Mall, Bannerghatta, Bangalore",2,3.8,5096.25,2548.1249999999995,1100.0,2,Growth Opportunity
+"HBR Layout, Bangalore",17,4.0058823529411764,1737.6294117647058,102.21349480968857,488.2352941176471,0,High Competition Low Demand
+"HSR, Bangalore",187,3.909625668449198,4359.6780748663095,23.313786496611282,474.331550802139,1,Saturated Market
+"Hebbal, Bangalore",21,3.8523809523809525,2224.7047619047617,105.93832199546486,392.85714285714283,0,Saturated Market
+"Hennur, Bangalore",32,3.9125,2257.515625,70.54736328125,495.3125,0,Saturated Market
+"Hesaraghatta, Bangalore",3,3.966666666666667,4424.0,1474.6666666666667,783.3333333333334,0,Growth Opportunity
+"Hosur Road, Bangalore",5,3.8,4538.5599999999995,907.7120000000001,400.0,0,Growth Opportunity
+"Hotel Bangalore International, Bangalore",1,4.0,134.0,134.0,1100.0,0,Underserved Area
+"Hotel Chalukya, Race Course Road, Bangalore",2,4.0,688.75,344.375,700.0,0,Underserved Area
+"Hotel Ramanashree, Bangalore",1,4.3,522.4,522.4,1200.0,0,Underserved Area
+"Hotel Southern Star, Lavelle Road, Bangalore",1,3.9,902.4,902.4,1300.0,0,Underserved Area
+"ITC Gardenia, Bangalore",1,4.3,403.4,403.4,1000.0,0,Underserved Area
+"ITPL Main Road, Whitefield, Bangalore",12,3.6999999999999997,465.60833333333335,38.80069444444444,650.0,0,High Competition Low Demand
+"Indiranagar, Bangalore",151,4.013245033112582,3217.56821192053,21.308398754440596,675.1655629139073,1,Saturated Market
+"Infantry Road, Bangalore",3,3.7999999999999994,251.89999999999998,83.96666666666665,483.3333333333333,0,Underserved Area
+"Inorbit Mall, Whitefield, Bangalore",2,3.7,2176.7,1088.35,550.0,0,Growth Opportunity
+"JP Nagar, Bangalore",136,3.9676470588235295,2974.056617647059,21.868063365051903,533.4558823529412,1,Saturated Market
+"Jakkur, Bangalore",9,3.822222222222222,973.7999999999998,108.19999999999999,405.55555555555554,0,High Competition Low Demand
+"Jalahalli, Bangalore",34,3.95,2621.9058823529413,77.11487889273356,370.5882352941176,0,Saturated Market
+"Jayanagar, Bangalore",120,4.034166666666667,2917.6941666666667,24.31411805555555,487.9166666666667,1,Saturated Market
+"Jeevan Bhima Nagar, Bangalore",24,3.8625000000000003,3955.6374999999994,164.81822916666667,441.6666666666667,0,Saturated Market
+"KBR Mall, Marathahalli, Bangalore",2,3.95,4798.7,2399.35,525.0,2,Growth Opportunity
+"KR Puram, Bangalore",27,3.7111111111111112,1922.5444444444443,71.20534979423869,401.85185185185185,0,Saturated Market
+"Kadubeesanahalli, Bangalore",6,3.8666666666666667,1699.9833333333333,283.3305555555556,341.6666666666667,0,Underserved Area
+"Kaggadasapura, Bangalore",17,3.8882352941176466,2321.605882352941,136.56505190311418,408.8235294117647,0,Saturated Market
+"Kalyan Nagar, Bangalore",88,3.965909090909091,2667.947727272727,30.317587809917356,619.3181818181819,1,Saturated Market
+"Kammanahalli, Bangalore",58,3.951724137931034,2462.2603448275863,42.45276456599286,499.13793103448273,1,Saturated Market
+"Kanakapura Road, Bangalore",19,3.952631578947368,1277.3,67.22631578947369,428.94736842105266,0,High Competition Low Demand
+"Kemp Fort Mall, Old Airport Road, Bangalore",2,4.15,2500.9999999999995,1250.5,400.0,0,Growth Opportunity
+"Koramangala 1st Block, Bangalore",24,3.995833333333333,2494.5375,103.93906249999999,556.25,0,Saturated Market
+"Koramangala 2nd Block, Bangalore",1,3.9,396.3,396.3,450.0,0,Underserved Area
+"Koramangala 3rd Block, Bangalore",2,4.300000000000001,768.0999999999999,384.04999999999995,325.0,0,Underserved Area
+"Koramangala 4th Block, Bangalore",18,4.044444444444444,4163.56111111111,231.30895061728395,594.4444444444445,0,Saturated Market
+"Koramangala 5th Block, Bangalore",63,4.025396825396825,5280.050793650794,83.81033005794909,550.7936507936508,1,Saturated Market
+"Koramangala 6th Block, Bangalore",27,4.014814814814814,3249.3925925925923,120.34787379972565,564.8148148148148,0,Saturated Market
+"Koramangala 7th Block, Bangalore",31,4.02258064516129,6123.538709677418,197.53350676378773,564.516129032258,1,Saturated Market
+"Koramangala 8th Block, Bangalore",10,3.91,1710.85,171.08499999999998,410.0,0,High Competition Low Demand
+"Krishna Kuteer, HSR, Bangalore",1,3.8,1301.1999999999998,1301.1999999999998,300.0,0,Underserved Area
+"Kumaraswamy Layout, Bangalore",25,3.812,3918.9439999999995,156.75776,366.0,0,Saturated Market
+"La Marvella Hotel, Bangalore",1,3.9,254.9,254.9,1500.0,0,Underserved Area
+"Langford Town, Bangalore",1,4.1,1826.1,1826.1,200.0,0,Growth Opportunity
+"Lavelle Road, Bangalore",11,4.118181818181818,1136.3181818181818,103.30165289256198,872.7272727272727,0,High Competition Low Demand
+"MG Road, Bangalore",15,3.94,1214.1666666666667,80.94444444444443,670.0,0,High Competition Low Demand
+"Magadi Road, Bangalore",1,4.0,830.5,830.5,500.0,0,Underserved Area
+"Majestic, Bangalore",22,4.045454545454546,603.5363636363636,27.433471074380165,438.6363636363636,0,High Competition Low Demand
+"Malleshwaram, Bangalore",73,4.053424657534246,3096.1424657534244,42.41291048977294,386.986301369863,1,Saturated Market
+"Mantri Square, Malleshwaram, Bangalore",12,3.908333333333333,2109.9166666666665,175.82638888888889,591.6666666666666,0,Saturated Market
+"Marathahalli, Bangalore",124,3.833064516129032,4669.282258064516,37.65550208116545,503.2258064516129,1,Saturated Market
+"Mysore Road, Bangalore",3,3.966666666666667,2849.0,949.6666666666666,500.0,0,Growth Opportunity
+"Nagarbhavi, Bangalore",17,4.029411764705882,2327.694117647059,136.92318339100345,491.1764705882353,0,Saturated Market
+"Nagawara, Bangalore",32,3.775,3134.2531249999997,97.94541015624999,389.0625,0,Saturated Market
+"New BEL Road, Bangalore",94,3.9436170212765957,2392.9436170212766,25.456846989588048,498.93617021276594,1,Saturated Market
+"Old Airport Road, Bangalore",23,3.882608695652174,4509.8,196.07826086956518,482.60869565217394,0,Saturated Market
+"Old Madras Road, Bangalore",6,3.8833333333333333,4247.083333333333,707.8472222222222,508.3333333333333,0,Growth Opportunity
+"Orion East, Banaswadi, Bangalore",2,4.199999999999999,985.5999999999999,492.79999999999995,450.0,0,Underserved Area
+"Orion Mall, Malleshwaram, Bangalore",11,3.9181818181818184,1870.2818181818182,170.0256198347107,795.4545454545455,0,Saturated Market
+"Peenya, Bangalore",7,3.9857142857142853,851.9714285714286,121.71020408163265,492.85714285714283,0,Underserved Area
+"Phoenix Marketcity Bangalore, Whitefield, Bangalore",10,3.85,1199.38,119.93800000000002,880.0,0,High Competition Low Demand
+"Prestige Trade Tower, Race Course Road, Bangalore",2,4.15,686.25,343.125,900.0,0,Underserved Area
+"RMZ Ecoworld, Bellandur, Bangalore",7,4.0,994.6,142.08571428571426,1014.2857142857143,0,Underserved Area
+"RT Nagar, Bangalore",27,3.8925925925925924,1755.2444444444443,65.00905349794238,361.1111111111111,0,High Competition Low Demand
+"Race Course Road, Bangalore",2,4.1,2434.75,1217.375,625.0,0,Growth Opportunity
+"Radha Hometel, Bangalore",1,3.3,322.29999999999995,322.29999999999995,1200.0,3,Underserved Area
+"Rajajinagar, Bangalore",85,4.008235294117647,2154.397647058823,25.34585467128028,472.94117647058823,1,Saturated Market
+"Rajarajeshwari Nagar, Bangalore",28,3.960714285714286,1584.3214285714287,56.5829081632653,589.2857142857143,0,High Competition Low Demand
+"Rammurthy Nagar, Bangalore",28,3.882142857142857,1202.5642857142855,42.948724489795914,425.0,0,High Competition Low Demand
+"Residency Road, Bangalore",16,4.06875,2671.9,166.99375,684.375,0,Saturated Market
+"Richmond Road, Bangalore",9,3.822222222222222,1315.1666666666667,146.12962962962962,550.0,0,High Competition Low Demand
+"Richmond Town, Bangalore",3,4.166666666666667,1542.5,514.1666666666666,783.3333333333334,0,Underserved Area
+"Royal Meenakshi Mall, Bannerghatta Road, Bangalore",7,3.9285714285714284,2129.157142857143,304.1653061224489,500.0,0,Growth Opportunity
+"Royal Orchid Suites, Whitefield, Bangalore",1,2.8,214.2,214.2,1200.0,3,Underserved Area
+"Sadashiv Nagar, Bangalore",15,3.98,1028.9333333333334,68.59555555555556,766.6666666666666,0,High Competition Low Demand
+"Sahakara Nagar, Bangalore",28,3.932142857142857,1463.0892857142858,52.253188775510196,585.7142857142857,0,High Competition Low Demand
+"Sanjay Nagar, Bangalore",23,3.973913043478261,529.6304347826087,23.027410207939507,400.0,0,High Competition Low Demand
+"Sankey Road, Bangalore",2,4.0,3281.9,1640.95,450.0,0,Growth Opportunity
+"Sarjapur Road, Bangalore",86,3.88953488372093,2165.260465116279,25.177447268793937,601.1627906976744,1,Saturated Market
+"Seshadripuram, Bangalore",20,3.9850000000000003,1910.395,95.51975,500.0,0,Saturated Market
+"Shanti Nagar, Bangalore",12,3.983333333333333,1674.6666666666667,139.55555555555554,400.0,0,High Competition Low Demand
+"Shivajinagar, Bangalore",14,4.064285714285714,1807.6785714285713,129.11989795918367,396.42857142857144,0,Saturated Market
+"Sigma Mall, Cunningham Road, Bangalore",1,4.2,2342.2,2342.2,500.0,0,Growth Opportunity
+"Skywalk, Ulsoor, Bangalore",1,3.8,151.09999999999997,151.09999999999997,200.0,0,Underserved Area
+"St. Marks Road, Bangalore",14,4.0928571428571425,1716.3357142857144,122.5954081632653,675.0,0,High Competition Low Demand
+"Svenska Design Hotel, Electronic City, Bangalore",2,2.95,507.45,253.725,1050.0,3,Underserved Area
+"Tamarind Hospitality, Bangalore",1,4.1,4635.9,4635.9,800.0,2,Growth Opportunity
+"The Den, Whitefield, Bangalore",1,4.1,353.99999999999994,353.99999999999994,600.0,0,Underserved Area
+"The Fern Residency, Bangalore",1,2.6,174.6,174.6,800.0,3,Underserved Area
+"The President Hotel, Jayanagar, Bangalore",1,4.1,2898.5,2898.5,1200.0,2,Growth Opportunity
+"Thippasandra, Bangalore",13,3.9769230769230766,3909.4307692307693,300.7254437869822,446.15384615384613,0,Saturated Market
+"Total Mall, Sarjapur Road, Bangalore",1,4.0,6656.599999999999,6656.599999999999,400.0,2,Growth Opportunity
+"UB City, Bangalore",5,3.9,1276.2,255.24,1280.0,0,Underserved Area
+"Ulsoor, Bangalore",18,3.9499999999999997,2442.422222222222,135.6901234567901,486.1111111111111,0,Saturated Market
+"Uttarahalli, Bangalore",14,3.9857142857142853,1718.8214285714287,122.77295918367346,364.2857142857143,0,High Competition Low Demand
+"VR Bengaluru, Whitefield, Bangalore",2,4.15,1396.05,698.025,1050.0,0,Underserved Area
+"Varthur Main Road, Whitefield, Bangalore",13,3.8153846153846156,3571.3846153846152,274.72189349112426,573.0769230769231,0,Saturated Market
+"Vasanth Nagar, Bangalore",10,3.94,735.46,73.54599999999999,465.0,0,High Competition Low Demand
+"Vega City, Bannerghatta Road, Bangalore",10,4.09,1872.0,187.2,465.0,0,Saturated Market
+"Vijay Nagar, Bangalore",64,3.971875,2966.515625,46.351806640625,384.375,1,Saturated Market
+"Virginia Mall, Whitefield, Bangalore",1,3.8,749.5999999999999,749.5999999999999,1600.0,0,Underserved Area
+"Whitefield, Bangalore",130,3.8346153846153848,2768.1892307692306,21.293763313609468,586.9230769230769,1,Saturated Market
+"Wilson Garden, Bangalore",8,4.1,1079.2,134.9,375.0,0,Underserved Area
+"Windmills Craftworks, Bangalore",1,4.2,987.0,987.0,1800.0,0,Underserved Area
+"Yelahanka, Bangalore",6,3.9333333333333336,2275.1666666666665,379.1944444444444,475.0,0,Growth Opportunity
+"Yeshwantpur, Bangalore",40,3.9,2102.0775,52.551937499999994,420.0,0,Saturated Market
